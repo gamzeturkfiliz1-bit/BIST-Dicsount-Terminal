@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="BIST Hisse Değerleme ve İskonto Terminali — THYAO vs PGSUS Mart 2026">
+    <title>Antigravity | BIST Değerleme &amp; İskonto Terminali</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@3.0.1/dist/chartjs-plugin-annotation.min.js"></script>
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════
+         Requirement 3: LOGIN PAGE — User Authentication Overlay
+         Dashboard (.app-shell) remains hidden until the user
+         enters their name and clicks 'Enter Terminal'.
+         ═══════════════════════════════════════════════════════ -->
+    <div class="login-overlay" id="loginOverlay">
+        <div class="login-card">
+            <div class="login-glow"></div>
+            <div class="login-inner">
+                <div class="login-logo">
+                    <svg width="42" height="42" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 1L23 12L12 23L1 12Z" stroke="url(#lGrad)" stroke-width="2" fill="url(#lGrad)" fill-opacity="0.12"/>
+                        <path d="M12 6L18 12L12 18L6 12Z" fill="url(#lGrad)" opacity="0.5"/>
+                        <defs><linearGradient id="lGrad" x1="1" y1="1" x2="23" y2="23"><stop stop-color="#2962FF"/><stop offset="1" stop-color="#26A69A"/></linearGradient></defs>
+                    </svg>
+                </div>
+                <h1 class="login-title">ANTIGRAVITY <span class="login-pro">PRO</span></h1>
+                <p class="login-subtitle">BIST Değerleme &amp; İskonto Terminali</p>
+                <div class="login-sep"></div>
+                <label class="login-label" for="loginUsername">Kullanıcı Adı (Username)</label>
+                <input type="text" id="loginUsername" class="login-input" placeholder="Adınızı girin..." autocomplete="off" maxlength="30">
+                <button class="login-btn" id="loginBtn" disabled>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>
+                    Enter Terminal
+                </button>
+                <p class="login-note">Havacılık · Bankacılık · Lojistik · Mart 2026 · BIST 100 ~12,930</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ MARKET TICKER BAR ═══ -->
+    <div class="ticker-bar hidden" id="tickerBar">
+        <div class="ticker-strip">
+            <div class="ticker-item">
+                <span class="ti-label">BIST 100</span>
+                <span class="ti-price" id="tiBist">12,930.00</span>
+                <span class="ti-delta positive" id="tiBistD">▲ +84.50 (+0.66%)</span>
+            </div>
+            <div class="ticker-sep"></div>
+            <div class="ticker-item">
+                <span class="ti-label" id="tiT1Label">THYAO.IS</span>
+                <span class="ti-price" id="tiT1">₺292.00</span>
+                <span class="ti-delta positive" id="tiT1D">▲ +3.40 (+1.18%)</span>
+            </div>
+            <div class="ticker-sep"></div>
+            <div class="ticker-item">
+                <span class="ti-label" id="tiT2Label">PGSUS.IS</span>
+                <span class="ti-price" id="tiT2">₺179.00</span>
+                <span class="ti-delta negative" id="tiT2D">▼ −1.25 (−0.69%)</span>
+            </div>
+            <div class="ticker-sep"></div>
+            <div class="ticker-item">
+                <span class="ti-label">USD/TRY</span>
+                <span class="ti-price">38.42</span>
+                <span class="ti-delta negative">▲ +0.08 (+0.21%)</span>
+            </div>
+            <div class="ticker-sep"></div>
+            <div class="ticker-item">
+                <span class="ti-label">EUR/TRY</span>
+                <span class="ti-price">41.88</span>
+                <span class="ti-delta negative">▲ +0.05 (+0.12%)</span>
+            </div>
+            <div class="ticker-sep"></div>
+            <div class="ticker-item">
+                <span class="ti-label">ALTIN (ONS)</span>
+                <span class="ti-price">$3,052</span>
+                <span class="ti-delta positive">▲ +14.2 (+0.47%)</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ TOP NAV ═══ -->
+    <header class="topnav hidden" id="topNav">
+        <div class="nav-left">
+            <div class="brand">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 1L23 12L12 23L1 12Z" stroke="url(#bGrad)" stroke-width="2" fill="url(#bGrad)" fill-opacity="0.12"/>
+                    <path d="M12 6L18 12L12 18L6 12Z" fill="url(#bGrad)" opacity="0.5"/>
+                    <defs><linearGradient id="bGrad" x1="1" y1="1" x2="23" y2="23"><stop stop-color="#2962FF"/><stop offset="1" stop-color="#26A69A"/></linearGradient></defs>
+                </svg>
+                <span class="brand-name">ANTIGRAVITY</span>
+                <span class="brand-pro">PRO</span>
+            </div>
+        </div>
+        <div class="nav-center">
+            <span class="nav-context">Havacılık Sektörü · Göreceli Değerleme · Mart 2026</span>
+        </div>
+        <div class="nav-right">
+            <span class="user-greeting" id="userGreeting"></span>
+            <span class="greeting-sep"></span>
+            <span class="market-status"><span class="status-dot"></span>Piyasa Açık</span>
+            <span class="nav-clock" id="navClock">--:--:--</span>
+        </div>
+    </header>
+
+    <!-- ═══ APP SHELL ═══ -->
+    <div class="app-shell hidden" id="appShell">
+
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sb-section">
+                <div class="sb-heading">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M6 20V4M18 20v-6"/></svg>
+                    KONTROL PANELİ
+                </div>
+                <div class="sb-divider"></div>
+            </div>
+
+            <!-- SECTOR SELECTOR -->
+            <div class="sb-section">
+                <label class="sb-label">Sektör Seçimi</label>
+                <div class="sb-sector-grid">
+                    <button class="sb-sector-btn active" data-sector="aviation">
+                        <span class="sector-icon">✈️</span>
+                        <span class="sector-name">Havacılık</span>
+                    </button>
+                    <button class="sb-sector-btn" data-sector="banking">
+                        <span class="sector-icon">🏦</span>
+                        <span class="sector-name">Bankacılık</span>
+                    </button>
+                    <button class="sb-sector-btn" data-sector="logistics">
+                        <span class="sector-icon">🚛</span>
+                        <span class="sector-name">Lojistik</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="sb-section">
+                <label class="sb-label">Hisse 1 — Analiz</label>
+                <div class="sb-input-row">
+                    <span class="sb-badge badge-t1" id="badge1">THYAO</span>
+                    <select id="sel1" class="sb-select">
+                        <option value="THYAO" selected>THYAO.IS — Türk Hava Yolları</option>
+                        <option value="PGSUS">PGSUS.IS — Pegasus</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sb-section">
+                <label class="sb-label">Hisse 2 — Karşılaştırma</label>
+                <div class="sb-input-row">
+                    <span class="sb-badge badge-t2" id="badge2">PGSUS</span>
+                    <select id="sel2" class="sb-select">
+                        <option value="THYAO">THYAO.IS — Türk Hava Yolları</option>
+                        <option value="PGSUS" selected>PGSUS.IS — Pegasus</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="sb-section">
+                <label class="sb-label">Grafik Periyodu</label>
+                <div class="sb-periods" id="sbPeriods">
+                    <button class="sb-per" data-p="1M">1A</button>
+                    <button class="sb-per" data-p="3M">3A</button>
+                    <button class="sb-per" data-p="6M">6A</button>
+                    <button class="sb-per active" data-p="1Y">1Y</button>
+                    <button class="sb-per" data-p="3Y">3Y</button>
+                </div>
+            </div>
+
+            <div class="sb-section">
+                <label class="sb-label">Veri Kaynağı</label>
+                <div class="sb-info-box" id="dataSourceBox">
+                    <span class="sb-info-icon">📡</span>
+                    <span class="sb-info-text">Yahoo Finance (yfinance)<br>15 dk gecikmeli · Simülasyon modu</span>
+                </div>
+            </div>
+
+            <div class="sb-section">
+                <label class="sb-label">Sektör Ortalaması (F/K)</label>
+                <div class="sb-sector-val" id="sbSectorVal">8.50x</div>
+                <span class="sb-note" id="sbSectorNote">Havacılık Sektörü · 2026</span>
+            </div>
+
+            <button class="sb-refresh" id="btnRefresh">
+                <svg class="refresh-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 2v6h-6M3 22v-6h6"/><path d="M3 12a9 9 0 0115.3-6.4M21 12a9 9 0 01-15.3 6.4"/></svg>
+                VERİLERİ GÜNCELLE
+            </button>
+
+            <div class="sb-footer">
+                <div class="sf-row"><span>Endeks</span><span>BIST 100 ~12,930</span></div>
+                <div class="sf-row"><span>Model</span><span>Göreceli Değerleme</span></div>
+                <div class="sf-row"><span>Tarih</span><span>31 Mart 2026</span></div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content" id="mainContent">
+
+            <!-- Notification banner -->
+            <div class="notification" id="notifBanner" style="display:none;">
+                <span class="notif-icon">ℹ️</span>
+                <span class="notif-text" id="notifText"></span>
+                <button class="notif-close" id="notifClose">✕</button>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="stat-row" id="statRow">
+                <div class="stat-card sc1">
+                    <div class="sc-header"><span class="sc-tick" id="scT1Tick">THYAO.IS</span><span class="sc-sub" id="scT1Sub">Türk Hava Yolları</span></div>
+                    <div class="sc-price" id="scT1Price">₺292.00</div>
+                    <div class="sc-change positive" id="scT1Change">▲ +3.40 (+1.18%)</div>
+                </div>
+                <div class="stat-card sc2">
+                    <div class="sc-header"><span class="sc-tick" id="scT2Tick">PGSUS.IS</span><span class="sc-sub" id="scT2Sub">Pegasus</span></div>
+                    <div class="sc-price" id="scT2Price">₺179.00</div>
+                    <div class="sc-change negative" id="scT2Change">▼ −1.25 (−0.69%)</div>
+                </div>
+                <div class="stat-card sc3">
+                    <div class="sc-header"><span class="sc-tick">XU100</span><span class="sc-sub">BIST 100 Endeksi</span></div>
+                    <div class="sc-price" id="scIdxPrice">12,930.00</div>
+                    <div class="sc-change positive" id="scIdxChange">▲ +84.50 (+0.66%)</div>
+                </div>
+                <div class="stat-card sc4">
+                    <div class="sc-header"><span class="sc-tick">İSKONTO</span><span class="sc-sub">Sektöre Göre Favori</span></div>
+                    <div class="sc-price" id="scWinner">—</div>
+                    <div class="sc-change neutral" id="scWinnerSub">Hesaplanıyor...</div>
+                </div>
+            </div>
+
+            <!-- A. Fundamental Table -->
+            <section class="panel" id="panelTable">
+                <div class="panel-head">
+                    <div class="ph-left">
+                        <h2 class="panel-title">TEMEL RASYOLAR</h2>
+                        <span class="panel-sub">Çarpan Karşılaştırması — BIST 100: ~12,930 · Sektör Ort. F/K: 8.50x</span>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table class="data-table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Metrik</th>
+                                <th><span class="th-t1">THYAO</span><br><small>Türk Hava Yolları</small></th>
+                                <th><span class="th-t2">PGSUS</span><br><small>Pegasus</small></th>
+                                <th><span class="th-avg">Sektör Ort.</span><br><small>Havacılık 2026</small></th>
+                                <th>% İskonto/Prim</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- B. Discount Radar Chart -->
+            <section class="panel" id="panelDiscount">
+                <div class="panel-head">
+                    <div class="ph-left">
+                        <h2 class="panel-title">İSKONTO RADARI</h2>
+                        <span class="panel-sub">Sektör Ortalamasına Göre % Sapma — Negatif = İskontolu, Pozitif = Primli</span>
+                    </div>
+                </div>
+                <div class="chart-box" style="height:300px;">
+                    <canvas id="discountChart"></canvas>
+                </div>
+            </section>
+
+            <!-- C. Verdict Card -->
+            <section class="verdict-card" id="verdictCard">
+                <div class="vc-glow"></div>
+                <div class="vc-inner">
+                    <div class="vc-badge">TEMEL ANALİZ VE İSKONTO KARARI</div>
+                    <h2 class="vc-headline" id="vcHeadline">Hesaplanıyor...</h2>
+                    <p class="vc-text" id="vcText">Veriler yükleniyor...</p>
+                    <div class="vc-bars" id="vcBars">
+                        <div class="vb-row">
+                            <span class="vb-tick vb-t1" id="vbT1">THYAO</span>
+                            <div class="vb-track"><div class="vb-fill vb-fill-t1" id="vbFill1"></div></div>
+                            <span class="vb-val" id="vbVal1">—</span>
+                        </div>
+                        <div class="vb-row">
+                            <span class="vb-tick vb-t2" id="vbT2">PGSUS</span>
+                            <div class="vb-track"><div class="vb-fill vb-fill-t2" id="vbFill2"></div></div>
+                            <span class="vb-val" id="vbVal2">—</span>
+                        </div>
+                    </div>
+                    <div class="vc-tags" id="vcTags"></div>
+                    <div class="vc-final" id="vcFinal"></div>
+                </div>
+            </section>
+
+            <!-- D. Price Performance Chart -->
+            <section class="panel" id="panelPerf">
+                <div class="panel-head">
+                    <div class="ph-left">
+                        <h2 class="panel-title">TARİHSEL FİYAT PERFORMANSI</h2>
+                        <span class="panel-sub" id="perfSub">Son 1 Yıl — THYAO vs PGSUS vs BIST 100</span>
+                    </div>
+                </div>
+                <div class="chart-box" style="height:360px;">
+                    <canvas id="perfChart"></canvas>
+                </div>
+                <div class="chart-legend">
+                    <span class="cl-item"><span class="cl-dot" style="background:#2962FF"></span>THYAO — Türk Hava Yolları</span>
+                    <span class="cl-item"><span class="cl-dot" style="background:#FF6D00"></span>PGSUS — Pegasus</span>
+                    <span class="cl-item"><span class="cl-dot" style="background:rgba(255,255,255,0.18)"></span>BIST 100 (Normalize)</span>
+                </div>
+            </section>
+
+            <!-- Footer Disclaimer -->
+            <footer class="disclaimer">
+                <span class="disc-icon">⚠️</span>
+                <div class="disc-text">
+                    <strong>Not Investment Advice (Yatırım Tavsiyesi Değildir).</strong>
+                    Data is delayed by 15 mins via Yahoo Finance. Veriler matematiksel modelleme ile hesaplanmıştır.
+                    Bu terminal yalnızca bilgilendirme amaçlıdır. Gerçek yatırım kararları için lisanslı bir yatırım danışmanına başvurunuz.
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loader-overlay" id="loaderOverlay">
+        <div class="loader-center">
+            <div class="loader-rings">
+                <div class="lr r1"></div>
+                <div class="lr r2"></div>
+                <div class="lr r3"></div>
+            </div>
+            <p class="loader-main">BIST verileri çekiliyor...</p>
+            <p class="loader-sub">Endeks: ~12,930 · Mart 2026</p>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
