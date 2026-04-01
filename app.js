@@ -99,19 +99,19 @@ const ALL_STOCKS = {
         color: '#7C4DFF', colorDim: 'rgba(124,77,255,0.15)',
     },
 
-    // ══ ROAD TRANSPORT / LOGISTICS SECTOR ══
-    TUPRS: {
-        ticker: 'TUPRS', full: 'TUPRS.IS', sector: 'logistics',
-        name: 'Tüpraş A.Ş.', short: 'Tüpraş (Rafineri/Lojistik)',
-        price: 185.40, change: -2.10, pct: -1.12,
-        pe: 4.80, pb: 1.95, evEbitda: 4.20, roe: 42.0,
-        eps: 38.63, epsGrowth: 15.0, marketCap: 46.4e9,
-        netDebtEbitda: 0.90, dividendYield: 6.5,
-        color: '#00BFA5', colorDim: 'rgba(0,191,165,0.15)',
+    // ══ AUTOMOTIVE SECTOR ══
+    TOASO: {
+        ticker: 'TOASO', full: 'TOASO.IS', sector: 'logistics',
+        name: 'Tofaş Türk Otomobil Fab. A.Ş.', short: 'Tofaş',
+        price: 265.50, change: 1.80, pct: 0.68,
+        pe: 6.20, pb: 3.10, evEbitda: 5.40, roe: 48.0,
+        eps: 42.82, epsGrowth: 16.0, marketCap: 132.8e9,
+        netDebtEbitda: 0.85, dividendYield: 3.5,
+        color: '#E31837', colorDim: 'rgba(227,24,55,0.15)',
     },
     FROTO: {
         ticker: 'FROTO', full: 'FROTO.IS', sector: 'logistics',
-        name: 'Ford Otomotiv San. A.Ş.', short: 'Ford Otosan (Lojistik/Otomotiv)',
+        name: 'Ford Otomotiv San. A.Ş.', short: 'Ford Otosan',
         price: 1120.00, change: 12.50, pct: 1.13,
         pe: 7.20, pb: 4.85, evEbitda: 7.50, roe: 55.0,
         eps: 155.56, epsGrowth: 22.0, marketCap: 393e9,
@@ -140,10 +140,10 @@ const SECTORS = {
     },
     logistics: {
         key: 'logistics',
-        label: 'Karayolu Taşımacılık / Lojistik',
-        labelEn: 'Road Transport / Logistics',
-        icon: '🚛',
-        tickers: ['TUPRS', 'FROTO'],
+        label: 'Otomotiv',
+        labelEn: 'Automotive',
+        icon: '🚗',
+        tickers: ['TOASO', 'FROTO'],
         avg: { pe: 6.50, pb: 3.20, evEbitda: 5.50, roe: 35.0, netDebtEbitda: 1.30 },
     },
 };
@@ -778,6 +778,9 @@ function switchSector(sectorKey) {
     saveToDB(DB_KEYS.ticker1, APP.t1);
     saveToDB(DB_KEYS.ticker2, APP.t2);
     renderAll();
+    // Show sector change notification
+    const sec = SECTORS[sectorKey];
+    showNotif(`${sec.icon} ${sec.label} sektörü yüklendi. ${APP.t1} vs ${APP.t2} karşılaştırması aktif.`, true);
 }
 
 // ═══ EVENTS ═══
